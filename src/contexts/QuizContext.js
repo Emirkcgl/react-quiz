@@ -1,4 +1,9 @@
 import { createContext, useReducer, useContext } from "react";
+
+const QuizContext = createContext();
+const SECONDS_PER_QUESTION = 30;
+
+//Uygulamanın her yerinden erişebileceğimiz boş depo olarak oluşturuyoruz.
 const initialState = {
   questions: [],
 
@@ -11,9 +16,7 @@ const initialState = {
   secondsRemaining: null,
 };
 
-const QuizContext = createContext();
-const SECONDS_PER_QUESTION = 30;
-
+//Uygulama içindeki tüm state'leri tutan fonksiyon
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived": {
@@ -82,6 +85,7 @@ function reducer(state, action) {
   }
 }
 
+//Uygulamanın her yerinden erişebileceğimiz depo için kullanılacak fonksiyon app.js içinde kullanılacak
 function QuizProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -93,6 +97,7 @@ function QuizProvider({ children }) {
 
 export default QuizProvider;
 
+//Uygulamanın her yerinden erişebileceğimiz depo için kullanılacak fonksiyon kullanılacak fonksiyon app.js içinde kullanılacak
 export function useQuiz() {
   const context = useContext(QuizContext);
   if (context === undefined) {
